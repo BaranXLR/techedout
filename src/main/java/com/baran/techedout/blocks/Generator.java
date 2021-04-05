@@ -12,11 +12,15 @@ import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.text.ITextComponent;
@@ -31,6 +35,7 @@ import com.baran.techedout.container.GeneratorContainer;
 import com.baran.techedout.tileentity.GeneratorTile;
 
 import java.util.List;
+import java.util.Random;
 
 public class Generator extends Block {
 	
@@ -42,6 +47,7 @@ public class Generator extends Block {
                 .hardnessAndResistance(2.0f)
                 .setLightLevel((state) -> BStoL(state))
         );
+        this.setDefaultState(this.getDefaultState().with(BlockStateProperties.POWERED, false));
     }
     
     private static Integer BStoL(BlockState state) {
@@ -51,7 +57,7 @@ public class Generator extends Block {
     		return 0;
     }
     
-    public void appendHoverText(ItemStack stack, @Nullable IBlockReader reader, List<ITextComponent> list, ITooltipFlag flags) {
+    public void appendHoverText(ItemStack stack, IBlockReader reader, List<ITextComponent> list, ITooltipFlag flags) {
         list.add(new TranslationTextComponent("message.generator"));
     }
     
@@ -93,5 +99,32 @@ public class Generator extends Block {
     protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
     	builder.add(BlockStateProperties.HORIZONTAL_FACING, BlockStateProperties.POWERED);
     }
+    
+    public void animateTick(BlockState stateIn, World worldIn, BlockPos pos, Random rand) {
+        if (stateIn.get(BlockStateProperties.POWERED)) {
+           double d0 = (double)pos.getX() + 0.5D;
+           double d1 = (double)pos.getY();
+           double d2 = (double)pos.getZ() + 0.5D;
+
+           Direction direction = stateIn.get(BlockStateProperties.HORIZONTAL_FACING);
+           Direction.Axis direction$axis = direction.getAxis();
+           double d3 = 0.52D;
+           double d4 = rand.nextDouble() * 0.5D - 0.25D;
+           double d5 = direction$axis == Direction.Axis.X ? (double)direction.getXOffset() * 0.52D : d4;
+           double d6 = (rand.nextDouble() * 7.0D + 4.0D) / 16.0D;
+           double d7 = direction$axis == Direction.Axis.Z ? (double)direction.getZOffset() * 0.52D : d4;
+           worldIn.addParticle(ParticleTypes.SMOKE, d0 + d5, d1 + d6, d2 + d7, 0.0D, 0.0D, 0.0D);
+           worldIn.addParticle(ParticleTypes.FLAME, d0 + d5, d1 + d6, d2 + d7, 0.0D, 0.0D, 0.0D);
+
+           worldIn.addParticle(ParticleTypes.SMOKE, d0 - d5, d1 + d6, d2 - d7, 0.0D, 0.0D, 0.0D);
+           worldIn.addParticle(ParticleTypes.FLAME, d0 - d5, d1 + d6, d2 - d7, 0.0D, 0.0D, 0.0D);
+           
+           worldIn.addParticle(ParticleTypes.SMOKE, d0 + d7, d1 + d6, d2 + d5, 0.0D, 0.0D, 0.0D);
+           worldIn.addParticle(ParticleTypes.FLAME, d0 + d7, d1 + d6, d2 + d5, 0.0D, 0.0D, 0.0D);
+
+           worldIn.addParticle(ParticleTypes.SMOKE, d0 - d7, d1 + d6, d2 - d5, 0.0D, 0.0D, 0.0D);
+           worldIn.addParticle(ParticleTypes.FLAME, d0 - d7, d1 + d6, d2 - d5, 0.0D, 0.0D, 0.0D);
+        }
+     }
 
 }

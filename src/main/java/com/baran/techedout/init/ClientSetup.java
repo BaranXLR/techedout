@@ -1,8 +1,10 @@
 package com.baran.techedout.init;
 
 import com.baran.techedout.TechedOut;
-import com.baran.techedout.blocks.Generator;
-import com.baran.techedout.gui.GeneratorScreen;
+import com.baran.techedout.blocks.*;
+import com.baran.techedout.gui.*;
+import com.baran.techedout.tileentity.*;
+import com.baran.techedout.container.*;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScreenManager;

@@ -46,7 +46,7 @@ public class Config {
         SERVER_BUILDER.comment("Generator settings").push(SUBCATEGORY_GENERATOR);
 
         GENERATOR_MAXPOWER = SERVER_BUILDER.comment("Maximum power for the generator")
-                .defineInRange("maxPower", 100000, 0, Integer.MAX_VALUE);
+                .defineInRange("maxPower", 10000, 0, Integer.MAX_VALUE);
         GENERATOR_GENERATE = SERVER_BUILDER.comment("Power generation per tick")
                 .defineInRange("generate", 10, 0, Integer.MAX_VALUE);
         GENERATOR_SEND = SERVER_BUILDER.comment("Power to send per tick")

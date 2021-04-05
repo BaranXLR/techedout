@@ -1,4 +1,6 @@
 {
-    "block.techedout.generator": "Generator",
-    "message.generator": "Hello! Does this work?"
+    "block.techedout.generator": "Thermal Generator",
+    "message.generator": "Hello! Does this work?",
+    "screen.techedout.generator": "Thermal Generator",
+    "message.energy": "%s RF"
 }

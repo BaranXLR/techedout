@@ -1,8 +1,13 @@
 {
     "variants": {
-           "facing=north": { "model": "techedout:block/generator"},
-            "facing=east": { "model": "techedout:block/generator", "y": 90 },
-           "facing=south": { "model": "techedout:block/generator", "y": 180 },
-            "facing=west": { "model": "techedout:block/generator", "y": 270 }
+      "facing=north,powered=false": { "model": "techedout:block/generator"},
+      "facing=east,powered=false": { "model": "techedout:block/generator", "y": 90 },
+      "facing=south,powered=false": { "model": "techedout:block/generator", "y": 180 },
+      "facing=west,powered=false": { "model": "techedout:block/generator", "y": 270 },
+      
+      "facing=north,powered=true": { "model": "techedout:block/generator_powered"},
+      "facing=east,powered=true": { "model": "techedout:block/generator_powered", "y": 90 },
+      "facing=south,powered=true": { "model": "techedout:block/generator_powered", "y": 180 },
+      "facing=west,powered=true": { "model": "techedout:block/generator_powered", "y": 270 }
     }
 }

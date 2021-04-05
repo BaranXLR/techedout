@@ -3,9 +3,9 @@
   "textures": {
     "down": "techedout:block/generator_top",
     "up": "techedout:block/generator_top",
-    "north": "techedout:block/generator_front",
-    "south": "techedout:block/generator_side",
-    "east": "techedout:block/generator_side",
-    "west": "techedout:block/generator_side"
+    "north": "techedout:block/generator_front_on",
+    "south": "techedout:block/generator_side_on",
+    "east": "techedout:block/generator_side_on",
+    "west": "techedout:block/generator_side_on"
   }
 }

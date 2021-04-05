@@ -10,6 +10,7 @@ import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 
 public class GeneratorScreen extends ContainerScreen<GeneratorContainer> {
 
@@ -26,12 +27,21 @@ public class GeneratorScreen extends ContainerScreen<GeneratorContainer> {
     	this.renderHoveredTooltip(ms, mouseX, mouseY);
     }
     
+    protected void renderHoveredTooltip(MatrixStack ms, int x, int y) {
+        if (this.minecraft.player.inventory.getItemStack().isEmpty() && this.hoveredSlot != null && this.hoveredSlot.getHasStack()) {
+           this.renderTooltip(ms, this.hoveredSlot.getStack(), x, y);
+        }
+        if(x > guiLeft + 10 && x < guiLeft + 25 && y > guiTop + 5 && y < guiTop + 65) {
+        	this.renderTooltip(ms, new TranslationTextComponent("message.energy", Integer.toString((this.container.getEnergy()))), x, y);
+        }
+
+     }
+    
     
     @Override
     protected void drawGuiContainerForegroundLayer(MatrixStack ms, int mouseX, int mouseY) {
-    	drawString(ms, Minecraft.getInstance().fontRenderer, "Energy: " + container.getEnergy(), 10, 10, 0xffffff);
-    	drawString(ms, Minecraft.getInstance().fontRenderer, "Ticks: " + container.getTicksLeft(), 10, 20, 0xffffff);
-    	drawString(ms, Minecraft.getInstance().fontRenderer, "Ticks: " + container.getMaxTicks(), 10, 30, 0xffffff);
+    	Minecraft instance = Minecraft.getInstance();
+		drawString(ms, instance.fontRenderer, "Test: " + container.getTicksLeft(), 10, 10, 0xffffff);
     }
     
     @Override
@@ -44,8 +54,14 @@ public class GeneratorScreen extends ContainerScreen<GeneratorContainer> {
         int i;
         if (((GeneratorContainer) this.container).getTicksLeft() > 0) {
             i = ((GeneratorContainer) this.container).getTicksLeftScaled(13);
-            this.blit(ms, guiLeft + 56, guiTop + 36 + 12 - i, 180, 12 - i, 14, i + 1);
+            this.blit(ms, guiLeft + 82, guiTop + 31 + 12 - i, 180, 12 - i, 14, i + 1);
         }
+        int i1;
+        if (((GeneratorContainer) this.container).getEnergy() > 0) {
+            i = ((GeneratorContainer) this.container).getEnergyScaled(58);
+            this.blit(ms, guiLeft + 11, guiTop + 6 + 58 - i, 180, 14, 14, i + 1);
+        }
+        
     }
     
 }

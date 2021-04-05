@@ -72,7 +72,8 @@ public class GeneratorTile extends TileEntity implements ITickableTileEntity{
 						itemHandler.extractItem(0, 1, false);
 					}
 				}
-			} 
+				markDirty();
+			}
 		}
 		BlockState blockState = world.getBlockState(pos);
 		if(blockState.get(BlockStateProperties.POWERED) != counter > 0) {
@@ -109,15 +110,17 @@ public class GeneratorTile extends TileEntity implements ITickableTileEntity{
         }
     }
     
-    public final IntArray fields = new IntArray(3) {
+    public final IntArray fields = new IntArray(4) {
         public int get(int index) {
             switch (index) {
                 case 0:
-                	return GeneratorTile.this.counter;
-                case 1:
-                	return GeneratorTile.this.lastBurnTime;
-                case 2:
                 	return GeneratorTile.this.energyStorage.getEnergyStored();
+                case 1:
+                	return GeneratorTile.this.energyStorage.getMaxEnergyStored();
+            	case 2:
+            		return GeneratorTile.this.counter;
+                case 3:
+                	return GeneratorTile.this.lastBurnTime;
                 default:
                     return 0;
             }
@@ -125,18 +128,23 @@ public class GeneratorTile extends TileEntity implements ITickableTileEntity{
 
         public void set(int index, int value) {
             switch (index) {
-                case 0:
-                	GeneratorTile.this.counter = value;
-                case 1:
+            	case 0:
+            		GeneratorTile.this.energyStorage.setEnergy(value);
+            	case 1:
+            		return;
+            	case 2:
+            		GeneratorTile.this.counter = value;
+                case 3:
                 	GeneratorTile.this.lastBurnTime = value;
-                case 2:
-                	GeneratorTile.this.energyStorage.setEnergy(value);
+                default:
+                	return;
+                	
             }
 
         }
 
         public int size() {
-            return 3;
+            return 4;
         }
     };
 	

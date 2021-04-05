@@ -33,7 +33,7 @@ public class GeneratorContainer extends Container{
 	private IItemHandler playerInventory;
 	protected IIntArray fields;
 	public GeneratorContainer(int windowId, World world, BlockPos pos, PlayerInventory playerInventory, PlayerEntity player) {
-		this(windowId, world, pos, playerInventory, player, new IntArray(3));
+		this(windowId, world, pos, playerInventory, player, new IntArray(4));
 	}
 	
     public GeneratorContainer(int windowId, World world, BlockPos pos, PlayerInventory playerInventory, PlayerEntity player, IntArray fields) {
@@ -42,12 +42,12 @@ public class GeneratorContainer extends Container{
         this.playerEntity = player;
         this.playerInventory = new InvWrapper(playerInventory);
         this.fields = tileEntity.fields;
-        assertIntArraySize(this.fields, 3);
+        assertIntArraySize(this.fields, 4);
         this.trackIntArray(this.fields);
 
         if (tileEntity != null) {
             tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(h -> {
-                addSlot(new SlotItemHandler(h, 0, 82, 24));
+                addSlot(new SlotItemHandler(h, 0, 82, 48));
             });
         }
         layoutPlayerInventorySlots(10, 70);
@@ -89,18 +89,24 @@ public class GeneratorContainer extends Container{
     }
     
     public int getTicksLeft() {
-    	return fields.get(0);
+    	return fields.get(2);
     }
     public int getMaxTicks() {
-    	return fields.get(1);
+    	return fields.get(3);
     }
     
     public int getEnergy() {
-    	return fields.get(2);
+    	return fields.get(0);
     }
     
     @OnlyIn(Dist.CLIENT)
     public int getTicksLeftScaled(int pixels) {
+        int i = this.fields.get(3);
+        return this.fields.get(2) * pixels / i;
+    }
+    
+    @OnlyIn(Dist.CLIENT)
+    public int getEnergyScaled(int pixels) {
         int i = this.fields.get(1);
         return this.fields.get(0) * pixels / i;
     }
